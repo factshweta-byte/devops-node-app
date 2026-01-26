@@ -1,4 +1,4 @@
-name: Docker CI + Push
+name: Docker CI
 
 on:
   push:
@@ -19,10 +19,11 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build Docker image
-        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/devops-node-app:latest .
-
-      - name: Push Docker image
-        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/devops-node-app:latest
+      - name: Build and Push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: factfusionwithshweta/devops-node-app:latest
 
 
