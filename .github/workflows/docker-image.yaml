@@ -24,4 +24,6 @@ jobs:
         with:
           context: .
           push: true
-          tags: factfusionwithshweta/devops-node-app:latest
+          tags: factshweta/devopstest:latest
+
+
