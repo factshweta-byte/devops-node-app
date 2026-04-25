@@ -1,8 +1,9 @@
-name: Node CI
+name: DevOps CI Pipeline
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
   build:
@@ -12,7 +13,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
@@ -20,5 +21,17 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Check Node Version
-        run: node -v
+      - name: Run Application Test
+        run: node index.js & sleep 5
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build Docker Image
+        run: docker build -t factshweta/devops-node-app .
+
+      - name: Push Docker Image
+        run: docker push factshweta/devops-node-app
